@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for src/repositories/bookmark_repository.py: 96%</title>
+    <title>Coverage for src/repositories/bookmark_repository.py: 92%</title>
     <link rel="icon" sizes="32x32" href="favicon_32.png">
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="coverage_html.js" defer></script>
@@ -13,7 +13,7 @@
     <div class="content">
         <h1>
             <span class="text">Coverage for </span><b>src/repositories/bookmark_repository.py</b>:
-            <span class="pc_cov">96%</span>
+            <span class="pc_cov">92%</span>
         </h1>
         <div id="help_panel_wrapper">
             <input id="help_panel_state" type="checkbox">
@@ -43,9 +43,9 @@
             </div>
         </div>
         <h2>
-            <span class="text">76 statements &nbsp;</span>
-            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">73<span class="text"> run</span></button>
-            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">3<span class="text"> missing</span></button>
+            <span class="text">80 statements &nbsp;</span>
+            <button type="button" class="run button_toggle_run" value="run" data-shortcut="r" title="Toggle lines run">74<span class="text"> run</span></button>
+            <button type="button" class="mis show_mis button_toggle_mis" value="mis" data-shortcut="m" title="Toggle lines missing">6<span class="text"> missing</span></button>
             <button type="button" class="exc show_exc button_toggle_exc" value="exc" data-shortcut="x" title="Toggle lines excluded">0<span class="text"> excluded</span></button>
         </h2>
         <div style="display: none;">
@@ -443,12 +443,43 @@
     <p class="pln"><span class="n"><a id="t384" href="#t384">384</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t385" href="#t385">385</a></span><span class="t">        <span class="nam">books</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">execute</span><span class="op">(</span><span class="nam">sql</span><span class="op">,</span> <span class="op">{</span><span class="str">"id"</span><span class="op">:</span> <span class="nam">user_id</span><span class="op">}</span><span class="op">)</span><span class="op">.</span><span class="nam">fetchall</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p class="mis show_mis"><span class="n"><a id="t386" href="#t386">386</a></span><span class="t">        <span class="key">return</span> <span class="nam">books</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t387" href="#t387">387</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t388" href="#t388">388</a></span><span class="t">    <span class="key">def</span> <span class="nam">get_all_bookmarks</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">user_id</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t389" href="#t389">389</a></span><span class="t">        <span class="nam">sql</span> <span class="op">=</span> <span class="str">"""</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t390" href="#t390">390</a></span><span class="t"><span class="str">        SELECT BM.id, B.title, B.author, BM.description, B.isbn, BM.unread, BM.date,'BOOK' AS "type"</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t391" href="#t391">391</a></span><span class="t"><span class="str">        FROM Bookmarks BM</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t392" href="#t392">392</a></span><span class="t"><span class="str">        JOIN BOOKS B ON BM.id = B.bookmark_id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t393" href="#t393">393</a></span><span class="t"><span class="str">        WHERE BM.user_id=:id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t394" href="#t394">394</a></span><span class="t"><span class="str">        UNION</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t395" href="#t395">395</a></span><span class="t"><span class="str">        SELECT BM.id, BL.title, BL.creator, BM.description, BL.link, BM.unread, BM.date,'BLOG' AS "type" </span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t396" href="#t396">396</a></span><span class="t"><span class="str">                FROM Bookmarks BM      </span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t397" href="#t397">397</a></span><span class="t"><span class="str">        JOIN BLOGS BL ON BM.id = BL.bookmark_id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t398" href="#t398">398</a></span><span class="t"><span class="str">        WHERE BM.user_id=:id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t399" href="#t399">399</a></span><span class="t"><span class="str">                UNION</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t400" href="#t400">400</a></span><span class="t"><span class="str">        SELECT BM.id, P.podcast_name||'/'||P.episode_name, P.creator, BM.description, P.link, BM.unread, BM.date,'PODCAST' AS "type" </span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t401" href="#t401">401</a></span><span class="t"><span class="str">                FROM Bookmarks BM      </span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t402" href="#t402">402</a></span><span class="t"><span class="str">        JOIN PODCASTS P ON BM.id = P.bookmark_id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t403" href="#t403">403</a></span><span class="t"><span class="str">        WHERE BM.user_id=:id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t404" href="#t404">404</a></span><span class="t"><span class="str">        UNION</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t405" href="#t405">405</a></span><span class="t"><span class="str">        SELECT BM.id, SA.title, SA.authors, BM.description, SA.doi, BM.unread, BM.date,'SCIENTIFIC_ARTICLES' AS "type" </span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t406" href="#t406">406</a></span><span class="t"><span class="str">                FROM Bookmarks BM</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t407" href="#t407">407</a></span><span class="t"><span class="str">        JOIN SCIENTIFIC_ARTICLES SA  ON BM.id = SA.bookmark_id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t408" href="#t408">408</a></span><span class="t"><span class="str">        WHERE BM.user_id=:id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t409" href="#t409">409</a></span><span class="t"><span class="str">        UNION</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t410" href="#t410">410</a></span><span class="t"><span class="str">        SELECT BM.id, V.title , V.creator, BM.description, V.link, BM.unread, BM.date,'VIDEO' AS "type" </span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t411" href="#t411">411</a></span><span class="t"><span class="str">                FROM Bookmarks BM</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t412" href="#t412">412</a></span><span class="t"><span class="str">        JOIN VIDEOS V  ON BM.id = V.bookmark_id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t413" href="#t413">413</a></span><span class="t"><span class="str">        WHERE BM.user_id=:id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t414" href="#t414">414</a></span><span class="t"><span class="str">        ORDER BY type,id</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t415" href="#t415">415</a></span><span class="t"><span class="str">        """</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t416" href="#t416">416</a></span><span class="t">        <span class="nam">bookmarks</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">db</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">execute</span><span class="op">(</span><span class="nam">sql</span><span class="op">,</span> <span class="op">{</span><span class="str">"id"</span><span class="op">:</span> <span class="nam">user_id</span><span class="op">}</span><span class="op">)</span><span class="op">.</span><span class="nam">fetchall</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p class="mis show_mis"><span class="n"><a id="t417" href="#t417">417</a></span><span class="t">        <span class="key">return</span> <span class="nam">bookmarks</span>&nbsp;</span><span class="r"></span></p>
 </main>
 <footer>
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v6.2</a>,
-            created at 2021-12-09 22:52 +0000
+            created at 2021-12-10 04:26 +0000
         </p>
     </div>
 </footer>
